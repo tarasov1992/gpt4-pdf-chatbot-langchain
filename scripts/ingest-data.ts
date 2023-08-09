@@ -4,6 +4,7 @@ import { CustomPDFLoader } from '@/utils/customPDFLoader';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 import { Chroma } from 'langchain/vectorstores/chroma';
 import { COLLECTION_NAME } from '@/config/chroma';
+import { ChromaClient } from 'chromadb//dist/main/ChromaClient'
 
 /* Name of directory to retrieve your files from */
 const filePath = 'docs';
@@ -31,8 +32,8 @@ export const run = async () => {
     /*create and store the embeddings in the vectorStore*/
     const embeddings = new OpenAIEmbeddings();
 
-    let chroma = new Chroma(embeddings, { collectionName: COLLECTION_NAME });
-    await chroma.index?.reset();
+    // let chroma = new Chroma(embeddings, { collectionName: COLLECTION_NAME, url: 'https://89y4icmk7c.execute-api.us-west-1.amazonaws.com/dev' });
+    // await chroma.index?.reset();
 
     // Ingest documents in batches of 100
 
@@ -40,6 +41,7 @@ export const run = async () => {
       const batch = docs.slice(i, i + 100);
       await Chroma.fromDocuments(batch, embeddings, {
         collectionName: COLLECTION_NAME,
+        url: 'https://89y4icmk7c.execute-api.us-west-1.amazonaws.com/dev'
       });
     }
   } catch (error) {

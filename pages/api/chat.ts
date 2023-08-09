@@ -30,6 +30,7 @@ export default async function handler(
       new OpenAIEmbeddings({}),
       {
         collectionName: COLLECTION_NAME,
+        url: 'https://89y4icmk7c.execute-api.us-west-1.amazonaws.com/dev'
       },
     );
 
